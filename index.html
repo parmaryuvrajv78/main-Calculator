@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(rgb(20, 20, 20), rgb(53, 53, 53));
+            font-family: Arial, sans-serif;
+        }
+
+        .calBox{
+            border: 2px solid rgb(138, 208, 255);
+            height: 450px;
+            width: 300px;
+            border-radius: 15px;
+            padding: 10px;
+            background-color: rgb(38, 40, 50);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buttons{
+            margin-top: 20px;
+            display: grid;
+            gap: 15px;
+        }
+
+        input{
+            height: 50px;
+            width: 250px;
+            background: rgba(184, 255, 241, 0.059);
+            border: 2px solid transparent;
+            box-shadow: 0 0 6px rgb(141, 182, 161);
+            font-size: 20px;
+            border-radius: 5px;
+            color: white;
+            padding: 5px;
+            text-align: right;
+        }
+
+        button{
+            height: 35px;
+            width: 55px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            box-shadow: 2px 3px 10px rgb(255, 255, 255);
+            border-radius: 20px;
+            font-size: 20px;
+            transition: 0.2s;
+        }
+
+        button:active{
+            background-color: rgba(0, 255, 251, 0.36);
+            color: black;
+            transform: scale(0.92);
+            box-shadow: 0 0 5px cyan;
+        }
+
+        .operator,
+        .firstRow,
+        .SecondRow,
+        .ThirdRow,
+        .ForthRow{
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .op, .equal{
+            box-shadow: 0 0 6px rgb(0, 255, 255);
+            background-color: rgba(42, 161, 165, 0.273);
+        }
+
+        #equal{
+            box-shadow: 0 0 6px rgb(51, 255, 0);
+            background-color: rgba(58, 165, 42, 0.725);
+        }
+
+        #clear{
+            box-shadow: 0 0 6px rgb(255, 0, 0);
+            background-color: rgba(255, 13, 13, 0.395);
+        }
+
+        /* 📱 Mobile Media Query */
+        @media screen and (max-width: 430px){
+            .calBox{
+                width: 95%;
+                height: 1fr;
+                
+            }
+
+            input{
+                width: 100%;
+                height: 60px;
+                font-size: 24px;
+            }
+
+            button{
+                width: 65px;
+                height: 45px;
+                font-size: 22px;
+                margin: 2px;
+            }
+
+            .buttons{
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="calBox">
+    <div>
+        <input type="text" id="display" value="0" disabled>
+
+        <div class="buttons">
+            <div class="operator">
+                <button data-value="+" class="op">+</button>
+                <button data-value="-" class="op">-</button>
+                <button data-value="*" class="op">*</button>
+                <button data-value="/" class="op">/</button>
+            </div>
+
+            <div class="firstRow">
+                <button data-value="7">7</button>
+                <button data-value="8">8</button>
+                <button data-value="9">9</button>
+                <button data-value="%" class="equal">%</button>
+            </div>
+
+            <div class="SecondRow">
+                <button data-value="4">4</button>
+                <button data-value="5">5</button>
+                <button data-value="6">6</button>
+                <button data-value="C" class="equal">DEL</button>
+            </div>
+
+            <div class="ThirdRow">
+                <button data-value="1">1</button>
+                <button data-value="2">2</button>
+                <button data-value="3">3</button>
+                <button data-value="AC" class="equal" id="clear">AC</button>
+            </div>
+
+            <div class="ForthRow">
+                <button data-value="0">0</button>
+                <button data-value="00">00</button>
+                <button data-value=".">.</button>
+                <button data-value="=" class="equal" id="equal">=</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById("display");
+    let buttons = document.querySelectorAll("button");
+    let currentInput = "";
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            let value = btn.getAttribute("data-value");
+
+            if(value === "AC"){
+                currentInput = "";
+                display.value = "0";
+            }
+            else if(value === "C"){
+                currentInput = currentInput.slice(0, -1);
+                display.value = currentInput || "0";
+            }
+            else if(value === "="){
+                try{
+                    currentInput = eval(currentInput);
+                    display.value = currentInput;
+                }catch{
+                    display.value = "Error";
+                }
+            }
+            else{
+                currentInput += value;
+                display.value = currentInput;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
